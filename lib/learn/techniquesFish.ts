@@ -1,0 +1,143 @@
+import type { Technique } from "./types";
+
+export const FISH_AND_FIRST_LINKS: Technique[] = [
+	{
+		slug: "x-wing",
+		name: "X-Wing",
+		family: "fish",
+		buildsOn: "Starting point: pointing pairs and hidden singles",
+		summary: "Two rows that hold a digit in the same two columns lock those columns.",
+		body: [
+			"Look at one digit at a time. Suppose 5 can only go in two places in row 2, and those two places are in columns 3 and 8. Now suppose row 7 has the exact same situation: 5 only fits in columns 3 and 8.",
+			"Row 2 needs a 5 and row 7 needs a 5. If row 2's 5 lands in column 3, row 7's 5 is pushed to column 8, and vice versa. So the 5s sit on one diagonal of the rectangle or the other. You don't know which, but either way column 3 gets its 5 from one of these two rows and so does column 8.",
+			"That means no other cell in column 3 or column 8 can be a 5. Clear them out.",
+		],
+		example: [
+			"The corners are {r2c3}, {r2c8}, {r7c3} and {r7c8}. The 5s at {r4c3}, {r9c3}, {r1c8} and {r5c8} all come out. The 5 at {r5c1} is untouched because it's in neither column.",
+		],
+		tip: "Find two rows where a digit appears exactly twice, in the same two columns. It works the same way with rows and columns swapped, which then clears the rows.",
+		diagram: {
+			bands: ["r2", "r7"],
+			cells: {
+				r2c3: "5|base",
+				r2c8: "5|base",
+				r7c3: "5|base",
+				r7c8: "5|base",
+				r4c3: "5|elim",
+				r9c3: "5|elim",
+				r1c8: "5|elim",
+				r5c8: "5|elim",
+				r5c1: "5",
+			},
+			links: [
+				["r2c3", "r2c8", "s"],
+				["r7c3", "r7c8", "s"],
+			],
+		},
+		caption: "Rows 2 and 7 each hold 5 in only columns 3 and 8, so those columns are spoken for.",
+	},
+	{
+		slug: "swordfish",
+		name: "Swordfish",
+		family: "fish",
+		buildsOn: "Builds on: X-Wing",
+		summary: "An X-Wing with three rows and three columns.",
+		body: [
+			"A Swordfish is an X-Wing with three rows instead of two. Pick a digit and find three rows where every remaining spot for it falls within the same three columns. Each row only needs two or three of those spots filled; it doesn't have to be a full 3×3 block.",
+			"The logic is the same counting argument. Three rows each need one 3, and they can't share a column, so they use up all three columns between them. Every other 3 in those three columns has to go.",
+		],
+		example: [
+			"Row 1 has 3 only in columns 2 and 7. Row 5 has it only in columns 2 and 5. Row 8 has it only in columns 5 and 7. Trace any choice through and the three rows always claim columns 2, 5 and 7 together. So the 3s at {r3c2}, {r6c5}, {r4c7} and {r9c7} are removed.",
+		],
+		tip: "When a digit has two or three spots in several rows, write down the column numbers for each row. If three rows only mention three distinct columns, you have one. The rows often don't look connected, which is why it's easy to miss.",
+		diagram: {
+			bands: ["r1", "r5", "r8"],
+			cells: {
+				r1c2: "3|base",
+				r1c7: "3|base",
+				r5c2: "3|base",
+				r5c5: "3|base",
+				r8c5: "3|base",
+				r8c7: "3|base",
+				r3c2: "3|elim",
+				r6c5: "3|elim",
+				r4c7: "3|elim",
+				r9c7: "3|elim",
+				r3c9: "3",
+				r6c1: "3",
+			},
+			links: [
+				["r1c2", "r1c7", "s"],
+				["r5c2", "r5c5", "s"],
+				["r8c5", "r8c7", "s"],
+			],
+		},
+		caption: "Three rows, three columns. The cycle of pairs locks 3 into columns 2, 5 and 7.",
+	},
+	{
+		slug: "skyscraper",
+		name: "Skyscraper",
+		family: "links",
+		buildsOn: "Builds on: X-Wing, by letting one side slip",
+		summary: "Two strong links that line up at one end only.",
+		body: [
+			"Here's where the strong link comes in. Column 2 has only two 4s, so one of them is true. Column 6 is the same. If both columns lined up perfectly you'd have an X-Wing. In a Skyscraper only one end lines up: the bottoms share row 8, but the tops sit in different rows.",
+			"The two bottom cells share a row, so at most one of them is a 4. That means at least one bottom is *not* a 4, and whichever column that is, its top must be the 4. So at least one of the two tops, {r2c2} or {r3c6}, is a 4.",
+			"Any cell that can see both tops can't be 4, because one of them definitely is.",
+		],
+		example: [
+			"{r3c1} sees {r2c2} through box 1 and {r3c6} through row 3. {r2c5} sees {r2c2} through row 2 and {r3c6} through box 2. Both lose their 4. The same applies to {r3c3} and {r2c4} if they hold one.",
+		],
+		tip: "Two parallel strong links on the same digit, one pair of ends in a shared row (or column), the other ends offset by a row and sitting in neighbouring boxes.",
+		diagram: {
+			bands: ["c2", "c6"],
+			cells: {
+				r2c2: "4|pin",
+				r3c6: "4|pin",
+				r8c2: "4|base",
+				r8c6: "4|base",
+				r3c1: "4|elim",
+				r2c5: "4|elim",
+				r6c4: "4",
+				r9c1: "4",
+			},
+			links: [
+				["r2c2", "r8c2", "s"],
+				["r3c6", "r8c6", "s"],
+				["r8c2", "r8c6", "w"],
+			],
+		},
+		caption: "The bases share row 8, so one of the tops must be 4. Cells seeing both tops lose 4.",
+	},
+	{
+		slug: "two-string-kite",
+		name: "Two-String Kite",
+		family: "links",
+		buildsOn: "Builds on: Skyscraper, with a row and a column",
+		summary: "A row link and a column link joined inside one box.",
+		body: [
+			"Same reasoning, different shape. Instead of two parallel strong links, take one in a row and one in a column, then join them where they meet inside a box.",
+			"Row 1 has 6 only at {r1c2} and {r1c7}. Column 3 has 6 only at {r2c3} and {r8c3}. The ends {r1c2} and {r2c3} are both in box 1, so they can't both be 6. At least one of them is false, which forces its partner at the far end of its string to be 6.",
+			"So one of the far ends, {r1c7} or {r8c3}, is a 6. The cell where their row and column cross, {r8c7}, sees both and can't be 6.",
+		],
+		tip: "Find a row strong link and a column strong link for the same digit with one end of each in the same box (and not the same cell). The elimination is always the single cell at the crossing of the two loose ends.",
+		diagram: {
+			bands: ["r1", "c3"],
+			cells: {
+				r1c2: "6|base",
+				r2c3: "6|base",
+				r1c7: "6|pin",
+				r8c3: "6|pin",
+				r8c7: "6|elim",
+				r5c7: "6",
+				r8c5: "6",
+			},
+			links: [
+				["r1c2", "r1c7", "s"],
+				["r2c3", "r8c3", "s"],
+				["r1c2", "r2c3", "w"],
+			],
+		},
+		caption: "The two strings meet in box 1. Their loose ends cross at r8c7.",
+	},
+];

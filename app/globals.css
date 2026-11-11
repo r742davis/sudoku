@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--page: #eef1f4;
+	--surface: #ffffff;
+	--ink: #1c2530;
+	--muted: #6b7785;
+	--line: #cfd6de;
+	--line-strong: #2a3441;
+	--accent: #0f766e;
+	--selected: #b5e8e1;
+	--match: #c5dcdf;
+	--peer: #e7eef1;
+	--danger: #c0392f;
+	/* Soft wash behind section headers and cards. Each section theme below recolors it. */
+	--tint: #dcf1ee;
+
+	/* Diagram and practice-board roles */
+	--tone-base: #2552c4;
+	--tone-base-soft: #d9e3fa;
+	--tone-pin: #0e8174;
+	--tone-pin-soft: #d2efea;
+	--tone-fin: #a86a12;
+	--tone-fin-soft: #f6e7cc;
+	--tone-elim: #c0392f;
+	--tone-elim-soft: #f8dcd9;
+	--tone-alt: #ad3b76;
+	--tone-alt-soft: #f4dbe8;
+	--tone-solve: #2c7f3d;
+	--tone-solve-soft: #d8eedb;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Section themes: Play keeps the teal above, Learn is violet, Practice is amber. */
+.theme-learn {
+	--accent: #5b3fd1;
+	--selected: #dcd3fa;
+	--tint: #ece8fb;
+}
+
+.theme-practice {
+	--accent: #b45309;
+	--selected: #fbdfae;
+	--tint: #fbefd7;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--page: #0f1418;
+		--surface: #171d23;
+		--ink: #e6ebf0;
+		--muted: #8c98a6;
+		--line: #2c3640;
+		--line-strong: #9aa7b5;
+		--accent: #4fd1c5;
+		--selected: #1f5550;
+		--match: #2f444c;
+		--peer: #1f2830;
+		--danger: #ff8a7f;
+		--tint: #16302e;
+
+		--tone-base: #7ea2ff;
+		--tone-base-soft: #233a6b;
+		--tone-pin: #4fd1bf;
+		--tone-pin-soft: #163f3a;
+		--tone-fin: #f0b45a;
+		--tone-fin-soft: #46361a;
+		--tone-elim: #ff8a7f;
+		--tone-elim-soft: #4a2420;
+		--tone-alt: #f08cc0;
+		--tone-alt-soft: #4a2238;
+		--tone-solve: #7fd68e;
+		--tone-solve-soft: #1f3f26;
+	}
+
+	.theme-learn {
+		--accent: #a994ff;
+		--selected: #3a2f6e;
+		--tint: #211c3d;
+	}
+
+	.theme-practice {
+		--accent: #f0b45a;
+		--selected: #5a4317;
+		--tint: #33290f;
+	}
+}
+
+@theme inline {
+	--color-page: var(--page);
+	--color-surface: var(--surface);
+	--color-ink: var(--ink);
+	--color-muted: var(--muted);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-accent: var(--accent);
+	--color-selected: var(--selected);
+	--color-match: var(--match);
+	--color-peer: var(--peer);
+	--color-danger: var(--danger);
+	--color-tint: var(--tint);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background: var(--page);
+	color: var(--ink);
 }

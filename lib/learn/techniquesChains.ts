@@ -1,0 +1,135 @@
+import type { Technique } from "./types";
+
+export const LINKS_AND_WINGS: Technique[] = [
+	{
+		slug: "crane",
+		name: "Crane",
+		family: "links",
+		buildsOn: "Builds on: Two-String Kite, with a box as one string",
+		summary: "A box link and a line link, read as a short chain.",
+		body: [
+			"In the Skyscraper and Kite, both strong links were in rows or columns. A box can supply a strong link too. If a box has only two cells left for a digit, one of them is it. The Crane (also called a Turbot Crane, part of the Turbot Fish family) uses one box link and one line link.",
+			"Read it as a chain. Box 1 has 7 only at {r1c1} and {r3c3}. Column 7 has 7 only at {r3c7} and {r8c7}. And {r3c3} and {r3c7} share row 3, so they can't both be 7.",
+			"If {r1c1} isn't 7, then {r3c3} is. That kills {r3c7}, which forces {r8c7}. So one of the two ends of the chain is always a 7, and {r8c1}, which sees both, loses its 7.",
+		],
+		tip: "The shape of every pattern so far is strong, weak, strong. Once that clicks, you can stop memorising names and just ask whether two strong links share a unit at one end.",
+		diagram: {
+			bands: ["c7", "r3"],
+			boxes: [1],
+			cells: {
+				r1c1: "7|pin",
+				r3c3: "7|base",
+				r3c7: "7|base",
+				r8c7: "7|pin",
+				r8c1: "7|elim",
+				r5c1: "7",
+				r8c4: "7",
+			},
+			links: [
+				["r1c1", "r3c3", "s"],
+				["r3c3", "r3c7", "w"],
+				["r3c7", "r8c7", "s"],
+			],
+		},
+		caption: "Strong in box 1, weak along row 3, strong down column 7. The ends are r1c1 and r8c7.",
+	},
+	{
+		slug: "simple-coloring",
+		name: "Simple Coloring",
+		family: "links",
+		buildsOn: "Builds on: every strong-link pattern so far",
+		summary: "Follow strong links as far as they go, alternating two colors.",
+		body: [
+			"Why stop at two strong links? Keep following them for one digit. Start at any cell in a strong link and color it teal. Its partner gets pink. That partner's other strong link partner gets teal, and so on, alternating as you go.",
+			"Because every link is strong, the colors behave like a switch: either every teal cell is the digit or every pink cell is. Nothing in between. That gives two rules.",
+			"The first is the trap. A cell outside the chain that sees one teal and one pink can't hold the digit, since one of those two is guaranteed to be true. Skyscraper, Kite and Crane are all just short traps.",
+			"The second is the wrap. If two cells of the same color land in the same row, column or box, that color can't be the true one (it would put the digit twice in a unit). Every cell of that color loses the digit, and every cell of the other color becomes it.",
+		],
+		example: [
+			"The chain runs {r1c2}, {r1c6}, {r5c6}, {r5c9}, {r8c9}, {r8c3}. {r3c3} sees teal {r1c2} through box 1 and pink {r8c3} through column 3. {r9c2} sees teal {r1c2} through column 2 and pink {r8c3} through box 7. Both lose 2.",
+		],
+		tip: "Pick a digit with lots of two-spot rows, columns and boxes. Color one chain fully before judging it; the trap usually shows up near the two ends.",
+		diagram: {
+			cells: {
+				r1c2: "2|a",
+				r1c6: "2|b",
+				r5c6: "2|a",
+				r5c9: "2|b",
+				r8c9: "2|a",
+				r8c3: "2|b",
+				r3c3: "2|elim",
+				r9c2: "2|elim",
+				r6c1: "2",
+				r3c8: "2",
+			},
+			links: [
+				["r1c2", "r1c6", "s"],
+				["r1c6", "r5c6", "s"],
+				["r5c6", "r5c9", "s"],
+				["r5c9", "r8c9", "s"],
+				["r8c9", "r8c3", "s"],
+			],
+		},
+		caption: "Alternate two colors along strong links. Cells seeing both colors lose the digit.",
+	},
+	{
+		slug: "y-wing",
+		name: "Y-Wing",
+		family: "wings",
+		buildsOn: "New thread: chains across cells with two candidates",
+		summary: "A two-candidate pivot forces one digit onto one of two pincers.",
+		body: [
+			"The patterns so far followed one digit around the grid. The wings follow cells instead, specifically cells with exactly two candidates. Inside such a cell there's a built-in strong link: if it isn't one digit, it's the other.",
+			"A Y-Wing has three of these cells. The pivot holds {4,7}. One pincer holds {4,9} and the other {7,9}. Each pincer sees the pivot, but the pincers don't need to see each other.",
+			"Whatever the pivot turns out to be, it pushes one pincer to 9. If the pivot is 4, the {4,9} pincer can't be 4, so it's 9. If the pivot is 7, the {7,9} pincer becomes 9. Either way a 9 lands on one of the pincers, so any cell seeing both pincers can't be 9.",
+		],
+		example: [
+			"The pivot is {r1c1}. Pincer {r2c3} shares box 1 with it, and pincer {r1c7} shares row 1. Cells that see both pincers are in row 1 inside box 1 and in row 2 inside box 3. Any 9 there goes.",
+		],
+		tip: "Pick a two-candidate cell as a possible pivot, then look along its row, column and box for two other pairs that each share one digit with it and share a third digit with each other.",
+		diagram: {
+			boxes: [1],
+			bands: ["r1"],
+			cells: {
+				r1c1: "47|base",
+				r2c3: "49|pin",
+				r1c7: "79|pin",
+				r1c3: "9|elim",
+				r2c8: "9|elim",
+				r2c9: "9|elim",
+				r6c3: "9",
+			},
+			links: [
+				["r1c1", "r2c3", "w"],
+				["r1c1", "r1c7", "w"],
+			],
+		},
+		caption: "Pivot {4,7} forces 9 onto one of the pincers, whichever value it takes.",
+	},
+	{
+		slug: "xyz-wing",
+		name: "XYZ-Wing",
+		family: "wings",
+		buildsOn: "Builds on: Y-Wing, with a three-candidate pivot",
+		summary: "A Y-Wing whose pivot might hold the shared digit itself.",
+		body: [
+			"Give the pivot a third candidate and you have an XYZ-Wing. The pivot holds {4,7,9}, the pincers still hold {4,9} and {7,9}.",
+			"The Y-Wing argument still covers two of the pivot's options: if it's 4 or 7, a pincer becomes 9. But now the pivot itself might be the 9. So the guaranteed 9 is somewhere among all three cells, and the target has to see all three of them.",
+			"That's a tighter requirement, which is why XYZ-Wings usually only eliminate one or two candidates, both sitting in the overlap of the pivot's box and line.",
+		],
+		example: [
+			"Pivot {r2c2}, pincer {r1c3} in box 1, pincer {r2c7} in row 2. The cells seeing all three are {r2c1} and {r2c3}, in both row 2 and box 1. Their 9s go. The 9 at {r2c9} survives; it sees the pivot and one pincer but not {r1c3}. With a Y-Wing it would have been removed.",
+		],
+		tip: "When hunting Y-Wings, don't skip three-candidate cells. If one shares a box with one pincer and a line with the other, check the overlap.",
+		diagram: {
+			boxes: [1],
+			bands: ["r2"],
+			cells: { r2c2: "479|base", r1c3: "49|pin", r2c7: "79|pin", r2c1: "9|elim", r2c3: "9|elim", r2c9: "9" },
+			links: [
+				["r2c2", "r1c3", "w"],
+				["r2c2", "r2c7", "w"],
+			],
+		},
+		caption: "The pivot might be 9 itself, so the target must see all three cells.",
+	},
+];

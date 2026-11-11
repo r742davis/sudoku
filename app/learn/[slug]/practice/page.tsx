@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { XWingPractice } from "@/components/practice/XWingPractice";
+import { PracticeSession } from "@/components/practice/PracticeSession";
 import { AppBar } from "@/components/ui/AppBar";
-import { PRACTICE_SLUGS, findTechnique } from "@/lib/learn/techniques";
+import { findTechnique } from "@/lib/learn/techniques";
+import { PRACTICE_SLUGS } from "@/lib/practice/sets";
 
 export function generateStaticParams() {
 	return PRACTICE_SLUGS.map(slug => ({ slug }));
@@ -34,11 +35,11 @@ async function PracticeContent({ params }: PageProps) {
 				<header>
 					<h1 className='text-3xl font-semibold tracking-tight'>{technique.name} practice boards</h1>
 					<p className='mt-2 max-w-prose text-muted'>
-						Six real puzzles, each stuck where an {technique.name} gets it moving again. The pencil marks
-						are already trimmed with singles, pointing pairs, and naked or hidden pairs and triples.
+						Six real puzzles, each stuck where the {technique.name} is the next move. The pencil marks are
+						already trimmed with the simpler techniques that come before it on the ladder.
 					</p>
 				</header>
-				<XWingPractice />
+				<PracticeSession slug={slug} />
 			</main>
 		</div>
 	);

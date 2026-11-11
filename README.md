@@ -19,7 +19,7 @@ Built with Next.js (App Router), React, TypeScript and Tailwind CSS. The whole a
 **Learn**
 
 - A ladder of 12 advanced techniques, each explained with an annotated diagram and ordered so each one builds on the last: X-Wing, Swordfish, Skyscraper, Two-String Kite, Crane, Simple Coloring, Y-Wing, XYZ-Wing, W-Wing, Finned X-Wing, Empty Rectangle and Unique Rectangle
-- Six X-Wing practice boards. Each is a real puzzle stopped at the point where an X-Wing is the next move. You find the four corners, remove the candidates it rules out, and place the digit that unlocks, with specific feedback on wrong picks.
+- Practice boards for X-Wing, Swordfish, Skyscraper and Two-String Kite, six per technique. Each is a real puzzle stopped at the point where that technique is the next move. You find the pattern's cells, remove the candidates it rules out, and place the digit that unlocks, with specific feedback on wrong picks.
 
 ## Difficulty levels
 
@@ -94,7 +94,7 @@ hooks/
 lib/
   sudoku/                       Grid helpers, solver, techniques, generator, game reducer
   learn/                        Lesson content and types
-  practice/                     X-Wing boards and practice logic
+  practice/                     Practice engine, one file per technique, and their boards
 ```
 
 ## How puzzles are made
@@ -105,4 +105,4 @@ Generation runs in a Web Worker so the page stays responsive. Puzzles that need 
 
 ## Adding to the Learn section
 
-Techniques are plain data in `lib/learn/`. To add one, append an entry to one of the `techniques*.ts` files; its page and its place in the ladder are generated from that. To give a technique practice boards, add its slug to `PRACTICE_SLUGS` in `lib/learn/techniques.ts` and render its practice component from `app/learn/[slug]/practice/page.tsx`.
+Techniques are plain data in `lib/learn/`. To add one, append an entry to one of the `techniques*.ts` files; its page and its place in the ladder are generated from that. Practice boards live in `lib/practice/`. `engine.ts` runs the three steps (find the pattern, remove candidates, place the digit) for any technique. Each technique has a small file that defines a `PracticeSet`: its boards, the wording for its messages, and a `diagnose` function that explains why a wrong pick isn't the pattern. To add practice for another technique, write that file and its board data, then register it under the technique's slug in `PRACTICE_SETS` in `lib/practice/sets.ts`. The practice page, the "Practice boards" badge on the ladder and the call to action on the technique page all follow from that entry.

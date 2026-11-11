@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { FamilyTag } from "@/components/learn/FamilyTag";
 import { AppBar } from "@/components/ui/AppBar";
-import { PRACTICE_SLUGS, TECHNIQUES } from "@/lib/learn/techniques";
+import { TECHNIQUES } from "@/lib/learn/techniques";
+import { PRACTICE_SLUGS } from "@/lib/practice/sets";
 
 export default function LearnPage() {
 	return (

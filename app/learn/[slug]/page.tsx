@@ -6,7 +6,8 @@ import { FamilyTag } from "@/components/learn/FamilyTag";
 import { TechniqueDiagram } from "@/components/learn/TechniqueDiagram";
 import { AppBar } from "@/components/ui/AppBar";
 import { RichText } from "@/components/ui/RichText";
-import { PRACTICE_SLUGS, TECHNIQUES, findTechnique } from "@/lib/learn/techniques";
+import { TECHNIQUES, findTechnique } from "@/lib/learn/techniques";
+import { PRACTICE_SLUGS } from "@/lib/practice/sets";
 
 export function generateStaticParams() {
 	return TECHNIQUES.map(({ slug }) => ({ slug }));
